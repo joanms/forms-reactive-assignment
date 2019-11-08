@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +19,16 @@ export class AppComponent implements OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'status': new FormControl('Stable')
     });
+  }
 
+  onSubmit() {
+    console.log(this.signupForm);
+  }
+
+  forbiddenNames(control: FormControl): {[s: string]: boolean} {
+    if (this.forbiddenProjectName.indexOf(control.value) !== -1) {
+      return {'nameIsForbidden': true};
+    }
+    return null;
   }
 }
