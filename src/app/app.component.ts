@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
+      'name': new FormControl(null, [Validators.required], this.forbiddenNames),
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'status': new FormControl('Stable')
     });
@@ -24,10 +25,24 @@ export class AppComponent implements OnInit {
     console.log(this.signupForm);
   }
 
-  forbiddenNames(control: FormControl): {[s: string]: boolean} {
-    if (this.forbiddenProjectName.indexOf(control.value) !== -1) {
-      return {'nameIsForbidden': true};
-    }
-    return null;
+  // forbiddenNames(control: FormControl): {[s: string]: boolean} {
+  //   if (this.forbiddenProjectName.indexOf(control.value) !== -1) {
+  //     return {'nameIsForbidden': true};
+  //   }
+  //   return null;
+  // }
+
+  forbiddenNames(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === 'Test') {
+          resolve({'nameIsForbidden': true});
+        } else {
+          resolve(null);
+        }
+      }, 1500);
+    });
+    return promise;
   }
+
 }
