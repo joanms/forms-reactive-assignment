@@ -31,14 +31,15 @@
             formControlName="email"
             class="form-control">
         </div>
-        <div class="form-group" *ngFor="let status of statuses">
+        <div class="form-group">
           <label for="status">Project Status</label>
           <select
             name="status"
             id="status"
             class="form-control">
-            <option              
-              [value]="status">{{ status }}></option>
+            <option value="stable">Stable</option>
+            <option value="critical">Critical</option>
+            <option value="finished">Finished</option>
           </select>
         </div>
 
